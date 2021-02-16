@@ -1,6 +1,6 @@
 from cameras.base_camera import BaseCamera
 from cv2 import VideoCapture, imencode, cvtColor
-from cv2 import COLOR_BGR2RGB, CAP_PROP_BUFFERSIZE, CAP_PROP_FRAME_WIDTH, CAP_PROP_FRAME_HEIGHT
+from cv2 import CAP_V4L, COLOR_BGR2RGB, CAP_PROP_BUFFERSIZE, CAP_PROP_FRAME_WIDTH, CAP_PROP_FRAME_HEIGHT
 from PIL import Image
 from io import BytesIO
 
@@ -8,7 +8,7 @@ class OpenCVCamera(BaseCamera):
     def __init__(self, videoSource=0, dims=(640, 480)):
         w, h = dims
 
-        self.vcap = VideoCapture(videoSource if not videoSource.isnumeric() else int(videoSource))
+        self.vcap = VideoCapture(videoSource if not videoSource.isnumeric() else int(videoSource), CAP_V4L) # Using V4L backend, as the default (gstreamer) fails to change the resolution.
         if not self.vcap.isOpened():
             raise RuntimeError('Could not open camera')
 

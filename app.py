@@ -2,7 +2,8 @@
 import argparse
 from cameras.opencv_camera import OpenCVCamera as Camera
 # from detectors.azure_detector import TFLiteAzureObjectDetector as Detector
-from detectors.pycoral_detector import PyCoralDetector as Detector
+# from detectors.pycoral_detector import PyCoralDetector as Detector
+from detectors.tf2_detector import TF2Detector as Detector
 from set_checker import SetChecker
 from flask_socketio import SocketIO
 from flask import Flask, request, send_file
@@ -22,10 +23,14 @@ def status():
 
 @app.route("/start")
 def start():
-    def emit(frame):
+    def emitFrame(frame):
         socketio.emit('frame', frame)
         socketio.sleep(0)
-    socketio.start_background_task(setChecker.start, callback=emit)
+    def emitSet(featureSet):
+        socketio.emit('set', featureSet)
+        socketio.sleep(0)
+
+    socketio.start_background_task(setChecker.start, frameCallback=emitFrame, setCallback=emitSet)
     return setChecker.status()
 
 @app.route("/stop")
@@ -33,12 +38,15 @@ def stop():
     setChecker.stop()
     return setChecker.status()
 
-@app.route("/set")
+@app.route("/configure")
 def configure():
     settings = request.json
 
     if 'set' in settings:
         setChecker.configureSet(settings['set'])
+
+    if 'percentage' in settings:
+        setChecker.configurePercentage(settings['percentage'])
 
     return setChecker.status()
 
