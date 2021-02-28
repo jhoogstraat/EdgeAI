@@ -5,6 +5,7 @@
 # (4. if inference speed is too slow for you, try to make w' x h' smaller, which is defined with DEFAULT_INPUT_SIZE (in object_detection.py or ObjectDetection.cs))
 import numpy as np
 import math
+from PIL import Image
 
 
 class ObjectDetection(object):
@@ -13,9 +14,9 @@ class ObjectDetection(object):
 
     ANCHORS = np.array([[0.573, 0.677], [1.87, 2.06], [3.34, 5.47], [7.88, 3.53], [9.77, 9.17]])
     IOU_THRESHOLD = 0.45
-    DEFAULT_INPUT_SIZE = 416 * 416 # 512 * 512
+    DEFAULT_INPUT_SIZE = 480 * 480
 
-    def __init__(self, labels, prob_threshold=0.10, max_detections = 20):
+    def __init__(self, labels, prob_threshold=0.60, max_detections = 20):
         """Initialize the class
 
         Args:
@@ -121,6 +122,28 @@ class ObjectDetection(object):
         assert len(boxes) == len(class_probs)
         return (boxes, class_probs)
 
+    def _update_orientation(self, image):
+        """
+        corrects image orientation according to EXIF data
+        image: input PIL image
+        returns corrected PIL image
+        """
+        exif_orientation_tag = 0x0112
+        if hasattr(image, '_getexif'):
+            exif = image._getexif()
+            if exif != None and exif_orientation_tag in exif:
+                orientation = exif.get(exif_orientation_tag, 1)
+                print('Image has EXIF Orientation: {}'.format(str(orientation)))
+                # orientation is 1 based, shift to zero based and flip/transpose based on 0-based values
+                orientation -= 1
+                if orientation >= 4:
+                    image = image.transpose(Image.TRANSPOSE)
+                if orientation == 2 or orientation == 3 or orientation == 6 or orientation == 7:
+                    image = image.transpose(Image.FLIP_TOP_BOTTOM)
+                if orientation == 1 or orientation == 2 or orientation == 5 or orientation == 6:
+                    image = image.transpose(Image.FLIP_LEFT_RIGHT)
+        return image
+
     def predict_image(self, image):
         inputs = self.preprocess(image)
         prediction_outputs = self.predict(inputs)
@@ -128,6 +151,8 @@ class ObjectDetection(object):
 
     def preprocess(self, image):
         image = image.convert("RGB") if image.mode != "RGB" else image
+        image = self._update_orientation(image)
+
         ratio = math.sqrt(self.DEFAULT_INPUT_SIZE / image.width / image.height)
         new_width = int(image.width * ratio)
         new_height = int(image.height * ratio)
