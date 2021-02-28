@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+from PIL import Image
 from detectors.base_detector import Object, BBox
 
 class TF2Detector():
@@ -10,6 +11,7 @@ class TF2Detector():
     def configure(self, modelDir):
         tf.keras.backend.clear_session()
         self.detectFn = tf.saved_model.load(modelDir).signatures['serving_default']
+        self.detect(Image.new('RGB', (480, 480))) # Warmup
         self.modelDir = modelDir
 
     @property
