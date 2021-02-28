@@ -9,7 +9,7 @@ import sys
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-from detectors.azure.object_detection import ObjectDetection
+from .object_detection import ObjectDetection
 
 MODEL_FILENAME = 'saved_model.pb'
 LABELS_FILENAME = 'labels.txt'
