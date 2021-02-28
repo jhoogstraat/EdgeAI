@@ -60,9 +60,15 @@ def main(args):
     if args.detector == 'pycoral':
         print("Loading PyCoral Detector")
         from detectors.pycoral_detector import PyCoralDetector as Detector
-    elif args.detector == 'ms':
-        print("Loading MS Detector")
-        from detectors.ms_detector import MSDetector as Detector
+    elif args.detector == 'ms-lite':
+        print("Loading MS Lite-Detector")
+        from detectors.ms_lite_detector import MSDetector as Detector
+    elif args.detector == 'ms-tf2':
+        print("Loading MS Lite-Detector")
+        from detectors.ms_tf_detector import MSDetector as Detector
+    elif args.detector == 'tf2':
+        print("Loading TF2 Detector")
+        from detectors.tf2_detector import TF2Detector as Detector
 
     camera = Camera(videoSource=args.video)
     detector = Detector(args.model)
@@ -81,7 +87,7 @@ if __name__ == "__main__":
                         help='The source of the video (path)')
     parser.add_argument('-m', '--model', required=True,
                         help='The directory containing a model.(pb|tflite) and a corresponding labels.txt, relative to the current dir.')
-    parser.add_argument('-d', '--detector', choices=['pycoral', 'ms'], default="pycoral",
+    parser.add_argument('-d', '--detector', choices=['pycoral', 'ms-lite', 'ms-tf2', 'tf2'], default="pycoral",
                         help='The detector to be used. Has to be compatible to the model.')
     args = parser.parse_args()
     main(args)
