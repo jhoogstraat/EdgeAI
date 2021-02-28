@@ -10,7 +10,7 @@ class CheckSetUseCase():
         self.set = {}  # The complete set.
         self.minObjectCount = 2  # Minimum  object count to start set check.
         # Percentage of frames required to contain the object.
-        self.requiredMinPercentage = 0.5
+        self.requiredMinPercentage = 0.3
         self.recordDuration = 2  # Record duration in seconds.
         self.timeoutDuration = 1  # Timeout in seconds.
 

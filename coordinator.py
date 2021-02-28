@@ -29,8 +29,11 @@ class Coordinator():
         while self.isRunning:
             try:
                 frame = self.camera.read()
-                jpg = self.camera.encodeJPG(frame)
-                objects = self.detector.detect(frame)
+                if (self.detector.name == 'TF2Detector'):
+                    jpg, objects = self.detector.detect(frame)
+                else:
+                    jpg = self.camera.encodeJPG(frame)
+                    objects = self.detector.detect(frame)
                 self.usecase.run(jpg, objects, usecaseCallback)
                 frameCallback({ 'frame': jpg, 'objects': [obj._asdict() for obj in objects] })
             except IOError:
