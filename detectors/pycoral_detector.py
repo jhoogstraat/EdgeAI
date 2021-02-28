@@ -6,12 +6,12 @@ from .base_detector import ObjectDetector
 class PyCoralDetector(ObjectDetector):
 
     def __init__(self, modelDir):
+        self.name = 'PyCoralDetector'
         self.configure(modelDir)
 
     def configure(self, modelDir):
         self.interpreter = edgetpu.make_interpreter(modelDir + "/model.tflite")
         self.interpreter.allocate_tensors()
-        self.name = 'PyCoralDetector'
         self.modelDir = modelDir
         self._inputSize = common.input_size(self.interpreter)
         self._labels = dataset.read_label_file(modelDir + "/labels.txt")

@@ -5,6 +5,7 @@ from .base_detector import ObjectDetector
 
 class MSDetector(ObjectDetector):
     def __init__(self, modelDir):
+        self.name = 'MSDetector'
         self.configure(modelDir)
 
     def configure(self, modelDir):
@@ -12,7 +13,7 @@ class MSDetector(ObjectDetector):
             labels = [l.strip() for l in f.readlines()]
             self.interpreter = TFLiteObjectDetection(modelDir + "/model.tflite", labels)
         
-        self.name = 'MSDetector'
+        
         self.modelDir = modelDir
         self._inputSize = self.interpreter.interpreter.get_input_details()[0]['shape'][1:3]
     
