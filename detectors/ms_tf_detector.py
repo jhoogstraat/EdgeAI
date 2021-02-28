@@ -1,3 +1,4 @@
+from PIL import Image
 from .base_detector import Object, BBox
 from .azure.tf.predict import TFObjectDetection
 from .base_detector import ObjectDetector
@@ -12,6 +13,7 @@ class MSDetector(ObjectDetector):
         with open(modelDir + "/labels.txt", 'r') as f:
             labels = [l.strip() for l in f.readlines()]
         self.interpreter = TFObjectDetection(modelDir + '/saved_model.pb', labels)
+        self.detect(Image.new('RGB', (480, 480))) # Warmup
         self.modelDir = modelDir
         # self._inputSize = self.interpreter.interpreter.get_input_details()[0]['shape'][1:3]
 
