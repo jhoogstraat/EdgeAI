@@ -12,7 +12,7 @@ class Coordinator():
         self.usecase.configure(config)
     
     def configureDetector(self, config):
-        self.detector.setModel(config['model'])
+        self.detector.configure(config['model'])
 
     def start(self, frameCallback, usecaseCallback):
         """Video streaming generator function."""

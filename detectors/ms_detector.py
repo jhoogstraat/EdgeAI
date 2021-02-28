@@ -5,9 +5,9 @@ from .base_detector import ObjectDetector
 
 class MSDetector(ObjectDetector):
     def __init__(self, modelDir):
-        self.setModel(modelDir)
+        self.configure(modelDir)
 
-    def setModel(self, modelDir):
+    def configure(self, modelDir):
         with open(modelDir + "/labels.txt", 'r') as f:
             labels = [l.strip() for l in f.readlines()]
             self.interpreter = TFLiteObjectDetection(modelDir + "/model.tflite", labels)

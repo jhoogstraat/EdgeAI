@@ -6,9 +6,9 @@ from .base_detector import ObjectDetector
 class PyCoralDetector(ObjectDetector):
 
     def __init__(self, modelDir):
-        self.setModel(modelDir)
+        self.configure(modelDir)
 
-    def setModel(self, modelDir):
+    def configure(self, modelDir):
         self.interpreter = edgetpu.make_interpreter(modelDir + "/model.tflite")
         self.interpreter.allocate_tensors()
         self.name = 'PyCoralDetector'

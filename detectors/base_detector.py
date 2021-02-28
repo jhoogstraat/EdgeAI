@@ -5,6 +5,11 @@ BBox = collections.namedtuple('BBox', ['xmin', 'ymin', 'xmax', 'ymax'])
 
 
 class ObjectDetector(object):
+    def configure(self, modelDir):
+        """Configure the model that is used by this detector.
+        """
+        raise NotImplementedError
+
     def labels(self):
         """Produces a compact, json-usable list of labels.
 
