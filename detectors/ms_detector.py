@@ -11,9 +11,7 @@ class MSDetector(ObjectDetector):
     def configure(self, modelDir):
         with open(modelDir + "/labels.txt", 'r') as f:
             labels = [l.strip() for l in f.readlines()]
-            self.interpreter = TFLiteObjectDetection(modelDir + "/model.tflite", labels)
-        
-        
+        self.interpreter = TFLiteObjectDetection(modelDir + "/model.tflite", labels)
         self.modelDir = modelDir
         self._inputSize = self.interpreter.interpreter.get_input_details()[0]['shape'][1:3]
     
