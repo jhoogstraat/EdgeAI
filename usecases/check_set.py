@@ -75,8 +75,7 @@ class CheckSetUseCase():
                 with open('pi.csv', mode='a') as sets_file:
                     writer = csv.writer(
                         sets_file, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-                    writer.writerow([self.tripCounter, ctime(), list(self.set.items()), self.requiredMinPercentage, frameCount,
-                                     minRequiredObjectOccurence, maxRequiredObjectOccurence, list(sorted(objectCount.items())), isComplete])
+                    writer.writerow([0, 0, 0, 4, 'device', 'model', len(list(self.set.items())), ctime(), list(self.set.items()), 'gt', frameCount, list(sorted(objectCount.items()))])
                 
                 self.tripCounter += 1
 
