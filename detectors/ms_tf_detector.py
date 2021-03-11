@@ -6,7 +6,7 @@ from .base_detector import ObjectDetector
 
 class MSDetector(ObjectDetector):
     def __init__(self, modelDir):
-        self.name = 'MSTFDetector'
+        super().__init__(name='MSTFDetector')
         self.configure(modelDir)
 
     def configure(self, modelDir):

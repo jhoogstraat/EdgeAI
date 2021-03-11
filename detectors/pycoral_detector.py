@@ -2,15 +2,20 @@ from pycoral.utils import edgetpu, dataset
 from pycoral.adapters import common, detect
 from .base_detector import ObjectDetector
 
-
 class PyCoralDetector(ObjectDetector):
 
     def __init__(self, modelDir):
-        self.name = 'PyCoralDetector'
+        super().__init__(name='PyCoralDetector')
         self.configure(modelDir)
 
     def configure(self, modelDir):
-        self.interpreter = edgetpu.make_interpreter(modelDir + "/model.tflite")
+        # Workaround, if no edgetpu is available
+        if not edgetpu.list_edge_tpus():
+            from tflite_runtime.interpreter import Interpreter
+            self.interpreter = Interpreter(modelDir + "/model.tflite")
+        else:
+            from pycoral.utils.edgetpu import make_interpreter
+            self.interpreter = make_interpreter(modelDir + "/model.tflite")
         self.interpreter.allocate_tensors()
         self.modelDir = modelDir
         self._inputSize = common.input_size(self.interpreter)

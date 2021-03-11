@@ -5,12 +5,12 @@ from detectors.base_detector import Object, BBox
 
 class TF2Detector():
     def __init__(self, modelDir):
-        self.name = 'TF2Detector'
+        super().__init__(name='TF2Detector')
         self.configure(modelDir)
 
     def configure(self, modelDir):
         tf.keras.backend.clear_session()
-        self.detectFn = tf.saved_model.load(modelDir).signatures['serving_default']
+        self.detectFn = tf.saved_model.load(modelDir).signatures[tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KEY]
         self.detect(Image.new('RGB', (480, 480))) # Warmup
         self.modelDir = modelDir
 
