@@ -1,1 +1,0 @@
-git clone https://8fb6c4dbe2b12a470f2694320b797233c201bfe2@github.com/jhoogstraat/edgeai.git
