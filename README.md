@@ -1,20 +1,20 @@
 # Build Images
-## TFLite (Raspberry Pi)
+## Tensorflow 2
 ```
-sudo docker build -f Dockerfile.tflite-arm7l .
+sudo docker build -f Dockerfile.tf2 .
 ```
-## TFLite (Coral Dev Board)
+## TFLite
 ```
-sudo docker build -f Dockerfile.tflite-aarch64 .
+sudo docker build -f Dockerfile.tflite .
 ```
 
 # Run Container
-## Run with EdgeTPU
+## Run with EdgeTPU attached (Integrated and USB)
 ```
 sudo docker run -it --rm --device /dev/video0:/dev/video0 -v /dev/bus/usb:/dev/bus/usb --privileged -p 5000:5000 $CONTAINER_ID
 ```
 
 ## Run on Jetson Nano
 ```
-sudo docker run -it --rm --runtime nvidia --network host --device=/dev/video0:/dev/video0 $CONTAINER_ID
+sudo docker run -it --rm --runtime nvidia --device=/dev/video0:/dev/video0 -p 5000:5000 $CONTAINER_ID
 ```

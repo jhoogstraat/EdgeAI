@@ -1,8 +1,7 @@
 FROM nvcr.io/nvidia/l4t-tensorflow:r32.5.0-tf2.3-py3
 
 RUN pip3 install --upgrade pip
-RUN pip3 install glances
-RUN pip3 install jetson-stats
+RUN pip3 install glances jetson-stats
 
 # Update Tensorflow
 ARG TENSORFLOW_URL=https://developer.download.nvidia.com/compute/redist/jp/v45/tensorflow/tensorflow-2.4.0+nv21.2-cp36-cp36m-linux_aarch64.whl
