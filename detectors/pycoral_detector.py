@@ -11,9 +11,11 @@ class PyCoralDetector(ObjectDetector):
     def configure(self, modelDir):
         # Workaround, if no edgetpu is available
         if not edgetpu.list_edge_tpus():
+            print("No EdgeTPUs found. Using the CPU only...")
             from tflite_runtime.interpreter import Interpreter
             self.interpreter = Interpreter(modelDir + "/model.tflite")
         else:
+            print("EdgeTPU found. Connecting to it via PyCoral...")
             from pycoral.utils.edgetpu import make_interpreter
             self.interpreter = make_interpreter(modelDir + "/model.tflite")
         self.interpreter.allocate_tensors()
