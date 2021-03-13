@@ -87,7 +87,7 @@ if __name__ == "__main__":
                         help='The source of the video (path)')
     parser.add_argument('-m', '--model', required=True,
                         help='The directory containing a model.(pb|tflite) and a corresponding labels.txt, relative to the current dir.')
-    parser.add_argument('-d', '--detector', choices=['pycoral', 'ms-lite', 'ms-tf2', 'tf2'], default="pycoral",
+    parser.add_argument('-d', '--detector', choices=['pycoral', 'ms-tflite', 'ms-tf2', 'tf2'], default="pycoral",
                         help='The detector to be used. Has to be compatible to the model.')
     args = parser.parse_args()
     main(args)

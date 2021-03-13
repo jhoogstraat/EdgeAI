@@ -1,9 +1,9 @@
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-from detectors.base_detector import Object, BBox
+from .base_detector import ObjectDetector, Object, BBox
 
-class TF2Detector():
+class TF2Detector(ObjectDetector):
     def __init__(self, modelDir):
         super().__init__(name='TF2Detector')
         self.configure(modelDir)

@@ -1,6 +1,5 @@
 from PIL import Image
-from .base_detector import Object, BBox
-from .base_detector import ObjectDetector
+from .base_detector import ObjectDetector, Object, BBox
 
 class MSDetectorBase(ObjectDetector):
     def __init__(self, name, modelDir, Detector):
