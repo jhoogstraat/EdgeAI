@@ -1,18 +1,16 @@
 from PIL import Image
 from .base_detector import Object, BBox
-from .azure.tf.predict import TFObjectDetection
 from .base_detector import ObjectDetector
 
-
-class MSDetector(ObjectDetector):
-    def __init__(self, modelDir):
+class MSDetectorBase(ObjectDetector):
+    def __init__(self, name, modelDir, Detector):
         super().__init__(name='MSTFDetector')
-        self.configure(modelDir)
+        self.configure(modelDir, Detector)
 
-    def configure(self, modelDir):
+    def configure(self, modelDir, Detector):
         with open(modelDir + "/labels.txt", 'r') as f:
             labels = [l.strip() for l in f.readlines()]
-        self.interpreter = TFObjectDetection(modelDir + '/saved_model.pb', labels)
+        self.interpreter = Detector(modelDir + '/saved_model.pb', labels)
         self.detect(Image.new('RGB', (480, 480))) # Warmup
         self.modelDir = modelDir
         # self._inputSize = self.interpreter.interpreter.get_input_details()[0]['shape'][1:3]
@@ -40,3 +38,13 @@ class MSDetector(ObjectDetector):
                   object['boundingBox']['height']) * 480
         )
         return Object(id=object['tagId'], score=object['probability'], bbox=bbox)
+
+class MSTFDetector(MSDetectorBase):
+    def __init__(self, modelDir):
+        from .azure.tf.predict import TFObjectDetection
+        super().__init__(name='MSTFDetector', modelDir=modelDir, Detector=TFObjectDetection)
+
+class MSTFliteDetector(MSDetectorBase):
+    def __init__(self, modelDir):
+        from .azure.tflite.predict import TFLiteObjectDetection
+        super().__init__(name='MSTFLiteDetector', modelDir=modelDir, Detector=TFLiteObjectDetection)

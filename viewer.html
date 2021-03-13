@@ -46,13 +46,13 @@
         $(function () {
             $("#btn_start").click(() => {
                 var request = new XMLHttpRequest()
-                request.open("GET", "/start")
+                request.open("POST", "/start")
                 request.send()
             })
 
             $("#btn_stop").click(() => {
                 var request = new XMLHttpRequest()
-                request.open("GET", "/stop")
+                request.open("POST", "/stop")
                 request.send()
             })
 
