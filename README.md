@@ -24,7 +24,11 @@ sudo docker run -it --rm --runtime nvidia --device=/dev/video0:/dev/video0 -p 50
 Execute in container shell
 ```
 MODEL=models/google/tradeoff && \
-DETECTOR=tf2 && \
+DETECTOR=pycoral && \
 INPUT=/dev/video0 && \
 python3 app.py -m $MODEL -d $DETECTOR -v $INPUT
 ```
+
+# Troubleshooting
+- OSError: protocol not found: https://stackoverflow.com/a/40185488/5376091
+
