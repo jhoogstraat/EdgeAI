@@ -18,8 +18,8 @@ RUN pip3 install --no-cache-dir opencv-python-headless==4.5.1.48 Pillow Flask-So
 # https://github.com/numpy/numpy/issues/18131
 ENV OPENBLAS_CORETYPE=ARMV8
 
-COPY . /edgeai
+COPY . /app
 
-WORKDIR /edgeai
+WORKDIR /app
 
-# CMD ["python3", "app.py", "-m", "models/google/tradeoff", "-d", "tf2"]
+ENTRYPOINT ["python3", "app.py"]

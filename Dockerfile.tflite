@@ -16,8 +16,8 @@ RUN pip3 install --no-cache-dir opencv-python-headless==4.5.1.48 --extra-index-u
 
 RUN pip3 install --no-cache-dir Pillow Flask-SocketIO eventlet
 
-COPY . /edgeai
+COPY . /app
 
-WORKDIR /edgeai
+WORKDIR /app
 
-# CMD ["python3", "app.py", "-m", "models/google/tradeoff", "-d", "pycoral"]
+ENTRYPOINT ["python3", "app.py"]
