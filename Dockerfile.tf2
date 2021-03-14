@@ -18,6 +18,9 @@ RUN pip3 install --no-cache-dir opencv-python-headless==4.5.1.48 Pillow Flask-So
 # https://github.com/numpy/numpy/issues/18131
 ENV OPENBLAS_CORETYPE=ARMV8
 
+# https://stackoverflow.com/a/40185488/5376091
+RUN apt-get -o Dpkg::Options::="--force-confmiss" install --reinstall netbase
+
 COPY . /app
 
 WORKDIR /app

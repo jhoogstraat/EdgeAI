@@ -1,11 +1,11 @@
 # Build Images
-## Tensorflow 2
-```
-sudo docker build -f Dockerfile.tf2 -t jhoogstraat/edgeai-tf2:latest .
-```
 ## TFLite
 ```
 sudo docker build -f Dockerfile.tflite -t jhoogstraat/edgeai-tflite:latest .
+```
+## Tensorflow 2
+```
+sudo docker build -f Dockerfile.tf2 -t jhoogstraat/edgeai-tf2:latest .
 ```
 
 # Run Container
