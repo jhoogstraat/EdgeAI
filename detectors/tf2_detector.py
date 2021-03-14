@@ -9,6 +9,8 @@ class TF2Detector(ObjectDetector):
         self.configure(modelDir)
 
     def configure(self, modelDir):
+        with open(modelDir + "/labels.txt", 'r') as f:
+            self._labels = {row: line.strip() for row, line in enumerate(f.readlines())}
         tf.keras.backend.clear_session()
         self.detectFn = tf.saved_model.load(modelDir).signatures[tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KEY]
         self.detect(Image.new('RGB', (480, 480))) # Warmup
@@ -16,14 +18,7 @@ class TF2Detector(ObjectDetector):
 
     @property
     def labels(self):
-        return {
-            '1': 'gelbes_auge',
-            '2': 'gruener_stein',
-            '3': 'gelbe_rutsche',
-            '4': 'blauer_balken',
-            '5': 'orangene_platte',
-            '6': 'schwarze_stange'
-        }
+        return self._labels
 
     @property
     def inputSize(self):

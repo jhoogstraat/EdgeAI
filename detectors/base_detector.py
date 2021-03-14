@@ -12,7 +12,7 @@ class ObjectDetector(object):
         """Produces a compact, json-usable list of labels.
 
         Returns:
-            List of (int) which maps label id to class name.
+            Dict of (int, string) which maps label id to description.
         """
         raise NotImplementedError
 
@@ -20,7 +20,7 @@ class ObjectDetector(object):
         """Produces a compact, json-usable dict of the model's input size.
 
         Returns:
-            dict with keys 'w' (width) and 'h' (height) mapping to (int) sizes.
+            Dict with keys 'w' (width) and 'h' (height) mapping to (int) sizes.
         """
         raise NotImplementedError
 

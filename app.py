@@ -72,7 +72,7 @@ def main(args):
 
     camera = Camera(videoSource=args.video)
     detector = Detector(args.model)
-    usecase = CheckSetUseCase()
+    usecase = CheckSetUseCase(detector.labels)
     coordinator = Coordinator(camera, detector, usecase)
 
     print('[INFO] Starting server at http://localhost:5000')
