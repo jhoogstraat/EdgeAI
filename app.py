@@ -65,7 +65,7 @@ def main(args):
         from detectors.tf2_detector import TF2Detector as Detector
     elif args.detector == 'ms-tflite':
         print("Loading MS TFLite-Detector")
-        from detectors.ms_detector import MSTFliteDetector as Detector
+        from detectors.ms_detector import MSTFLiteDetector as Detector
     elif args.detector == 'ms-tf2':
         print("Loading MS TF-Detector")
         from detectors.ms_detector import MSTFDetector as Detector
