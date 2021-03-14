@@ -61,7 +61,7 @@ class CheckSetUseCase():
             setDetected = Counter(
                 [obj.id for frame in self.objectStore for obj in frame])
             frameCount = len(self.objectStore)
-            print(self.set, setDetected)
+            
             inTargetRange = {}
             for id, target in self.set.items():
                 upperBound = frameCount * target
