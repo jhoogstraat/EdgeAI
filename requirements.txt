@@ -1,0 +1,10 @@
+Adafruit-Blinka
+Flask
+Flask-SocketIO
+Pillow
+opencv-contrib-python-headless
+tensorflow
+numpy
+-i https://google-coral.github.io/py-repo/
+tflite_runtime
+pycoral

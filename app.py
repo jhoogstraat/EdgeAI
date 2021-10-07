@@ -3,14 +3,14 @@ import argparse
 from coordinator import Coordinator
 from cameras.opencv_camera import OpenCVCamera as Camera
 from flask_socketio import SocketIO
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, Response
 from usecases.check_set import CheckSetUseCase
-
+from motor.motor_controller import MotorController
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 coordinator = None
-
+motor = MotorController()
 
 @app.route("/viewer")
 def getViewer():
@@ -32,10 +32,50 @@ def start():
         socketio.emit('set', featureSet)
         socketio.sleep(0)
 
+    socketio.start_background_task(motor.run, socketio.sleep)
     socketio.start_background_task(
         coordinator.start, frameCallback=emitFrame, usecaseCallback=emitUsecase)
     return coordinator.status()
 
+@app.route("/motor/start", methods=["POST"])
+def start_motor():
+    socketio.start_background_task(motor.run, socketio.sleep)
+    return motor.status()
+
+@app.route("/motor/stop", methods=["POST"])
+def stop_motor():
+    motor.stop()
+    return motor.status()
+
+@app.route("/motor/accelerate", methods=["POST"])
+def accelerate_motor():
+    motor.change_step_pause(-0.0002)
+    return motor.status()
+
+@app.route("/motor/decelerate", methods=["POST"])
+def decelerate_motor():
+    motor.change_step_pause(0.0002)
+    return motor.status()
+
+@app.route("/motor/speed", methods=["POST"])
+def change_motor_speed():
+    delta = request.args.get('delta')
+    if delta:
+        motor.change_step_pause(delta=float(delta))
+    else:
+        abs = float(request.args['abs'])
+        motor.change_step_pause(abs=abs)
+    
+    return motor.status()
+
+@app.route("/motor/status")
+def motor_status():
+    return motor.status()
+
+@app.route("/motor/reverse", methods=["POST"])
+def reverse_motor():
+    motor.reverse()
+    return motor.status()
 
 @app.route("/stop", methods=['POST'])
 def stop():
