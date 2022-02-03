@@ -2,9 +2,18 @@ Adafruit-Blinka
 Flask
 Flask-SocketIO
 Pillow
+
+# No CUDA, build with cuda on jetson nano (https://github.com/mdegans/nano_build_opencv)
 opencv-contrib-python-headless
-tensorflow
-numpy
--i https://google-coral.github.io/py-repo/
-tflite_runtime
-pycoral
+
+# Arch-dependent
+# Jetson Nano: https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html
+# tensorflow
+
+# https://forums.developer.nvidia.com/t/opencv-import-fails-with-illegal-instruction-core-dump/168060/4
+numpy==1.19.4
+
+# Google Coral 
+# -i https://google-coral.github.io/py-repo/
+# tflite_runtime
+# pycoral
